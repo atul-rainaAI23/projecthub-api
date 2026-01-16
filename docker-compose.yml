@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: projecthub-api
+    ports:
+      - "3001:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    restart: always
+    command: sh -c "npx prisma migrate deploy && npm run start:prod"
+
+  db:
+    image: postgres:15
+    container_name: nest-projecthub
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: projecthub_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
