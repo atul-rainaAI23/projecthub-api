@@ -1,0 +1,13 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Health {
+  id        Int      @id @default(autoincrement())
+  status    String
+  timestamp DateTime @default(now())
+}
